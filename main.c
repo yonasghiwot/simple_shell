@@ -6,23 +6,18 @@
 
 int main(void)
 {
+
 	size_t len = 0;
-	char *input = NULL;
-	char *value;
-	char *pathname;
-	char **argv;
+	char *input = NULL, *value, *pathname, **argv;
 	list_path *head = '\0';
 	void (*f)(char **);
-	
+
 	while (1)
 	{
-		if (isatty(STDIN_FILENO)){
-		_puts("$ ");
-		}
-		
-		if (getline(&input, &len, stdin) == -1) {
-		break;
-      		}
+		if (isatty(STDIN_FILENO))
+			_puts("$ ");
+		if (getline(&input, &len, stdin) == -1)
+			break;
 		argv = word_list(input, " \n");
 		if (!argv || !argv[0])
 			execute(argv);
@@ -51,11 +46,4 @@ int main(void)
 	freearv(argv);
 	free(input);
 	return (0);
-}
-/**
- * Handles_EOF- checks end of file condition  
- * Return: nothing 
- */
-void handles_EOF(){
-	
 }
