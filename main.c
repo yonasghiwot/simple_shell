@@ -14,16 +14,9 @@ int main(void)
 	list_path *head = '\0';
 	void (*f)(char **);
 	
-
 	while (1)
 	{
-		if (isatty(STDIN_FILENO)){
-			_puts("$ ");
-		}
-		
-		if (getline(&input, &len, stdin) == -1) {
-			break;
-      		}
+		handles_EOF();
 		argv = word_list(input, " \n");
 		if (!argv || !argv[0])
 			execute(argv);
@@ -35,7 +28,7 @@ int main(void)
 			f = checkbuiltin(argv);
 			if (f)
 			{
-				//free(input);
+				/*free(input);*/
 				f(argv);
 			}
 			else if (!pathname)
@@ -51,5 +44,18 @@ int main(void)
 	free_list(head);
 	freearv(argv);
 	free(input);
-	return 0;
+	return (0);
+}
+/**
+ * Handles_EOF- checks end of file condition  
+ * Return: nothing 
+ */
+void handles_EOF(){
+	if (isatty(STDIN_FILENO)){
+		_puts("$ ");
+	}
+		
+	if (getline(&input, &len, stdin) == -1) {
+		break;
+      	}
 }
