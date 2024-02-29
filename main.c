@@ -16,7 +16,13 @@ int main(void)
 	
 	while (1)
 	{
-		handles_EOF();
+		if (isatty(STDIN_FILENO)){
+		_puts("$ ");
+		}
+		
+		if (getline(&input, &len, stdin) == -1) {
+		break;
+      		}
 		argv = word_list(input, " \n");
 		if (!argv || !argv[0])
 			execute(argv);
@@ -51,11 +57,5 @@ int main(void)
  * Return: nothing 
  */
 void handles_EOF(){
-	if (isatty(STDIN_FILENO)){
-		_puts("$ ");
-	}
-		
-	if (getline(&input, &len, stdin) == -1) {
-		break;
-      	}
+	
 }
