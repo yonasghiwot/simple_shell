@@ -18,12 +18,34 @@ https://github.com/yonasghiwot/simple_shell.git
 
 ./shell
 
-               Contributors
+* simple_shell01
+**how the simple_shell01 works:
+
+***It displays the prompt ($ ) and waits for the user to type a command. 
+***The command is read from the user.
+***If the user presses Ctrl+D (end of file), the shell exits.
+***Otherwise, it tokenizes the input to separate the command.
+***It forks a child process to execute the command.
+***If the executable is not found, it prints an error message.
+***The parent process waits for the child process to complete.
+
+
+
+
+
+
+
+
+
+
+   Contributors
 
 - Yonas Gebrehiwot
 
 -  Dagmawit Terefe
 
-                Acknowledgements
+   Acknowledgements
 
-We would like to express our gratitude to our mentors,ALX africa.
+Our mentors
+ALX africa
+
