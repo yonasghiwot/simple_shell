@@ -1,153 +1,122 @@
 #include "main.h"
 
 /**
- * exit_shell - exits the shell with or without a return of status n
- * @arv: array of words of the entered line
+ * get_environ - function that returns the string array copy of our environ
+ * @info: Structure containing possibel argument which is 
+ *      : Used to maintain constant function prototype.
+ * Return: Always 0
  */
-void exit_shell(char **arv)
+char **get_environ(info_t *info)
 {
-	int i, n;
-
-	if (arv[1])
+	if (!info->environ || info->env_changed)
 	{
-		n = _atoi(arv[1]);
-		if (n <= -1)
-			n = 2;
-		freearv(arv);
-		exit(n);
+		info->environ = list_to_strings(info->env);
+		info->env_changed = 0;
 	}
-	for (i = 0; arv[i]; i++)
-		free(arv[i]);
-	free(arv);
-	exit(0);
-}
-/**
- * _atoi - converts a string into an integer
- *@s: pointer to a string
- *Return: the integer
- */
-int _atoi(char *s)
-{
-	int i, integer, sign = 1;
 
-	i = 0;
-	integer = 0;
-	while (!((s[i] >= '0') && (s[i] <= '9')) && (s[i] != '\0'))
+	return (info->environ);
+}
+
+/**
+ * _unsetenv - function that Remove an environment variable
+ * @info: Structure containing possibel arguments which is
+ *      : Used to maintain constant function prototype.
+ *  Return: 1 on delete, 0 otherwise
+ * @var: string env variable property
+ */
+int _unsetenv(info_t *info, char *var)
+{
+	list_t *node = info->env;
+	size_t i = 0;
+	char *p;
+
+	if (!node || !var)
+		return (0);
+
+	while (node)
 	{
-		if (s[i] == '-')
+		p = starts_with(node->str, var);
+		if (p && *p == '=')
 		{
-			sign = sign * (-1);
+			info->env_changed = delete_node_at_index(&(info->env), i);
+			i = 0;
+			node = info->env;
+			continue;
 		}
+		node = node->next;
 		i++;
 	}
-	while ((s[i] >= '0') && (s[i] <= '9'))
-	{
-		integer = (integer * 10) + (sign * (s[i] - '0'));
-		i++;
-	}
-	return (integer);
+	return (info->env_changed);
 }
 
 /**
- * env - prints the current environment
- * @arv: array of arguments
+ * _setenv - function that Initialize a new environment variable
+ *         - or modify an existing one
+ * @info: Structure containing possibel arguments which is 
+ *      : Used to maintain constant function prototype.
+ * @var: string env var property
+ * @value: string env var value
+ *  Return: Always 0
  */
-void env(char **arv __attribute__ ((unused)))
+int _setenv(info_t *info, char *var, char *value)
 {
+	char *buf = NULL;
+	list_t *node;
+	char *p;
 
-	int i;
+	if (!var || !value)
+		return (0);
 
-	for (i = 0; environ[i]; i++)
+	buf = malloc(_strlen(var) + _strlen(value) + 2);
+	if (!buf)
+		return (1);
+	_strcpy(buf, var);
+	_strcat(buf, "=");
+	_strcat(buf, value);
+	node = info->env;
+	while (node)
 	{
-		_puts(environ[i]);
-		_puts("\n");
-	}
-
-}
-/**
- * _setenv - Initialize a new environment variable, or modify an existing one
- * @arv: array of entered words
- */
-void _setenv(char **arv)
-{
-	int i, j, k;
-
-	if (!arv[1] || !arv[2])
-	{
-		perror(_getenv("_"));
-		return;
-	}
-
-	for (i = 0; environ[i]; i++)
-	{
-		j = 0;
-		if (arv[1][j] == environ[i][j])
+		p = starts_with(node->str, var);
+		if (p && *p == '=')
 		{
-			while (arv[1][j])
-			{
-				if (arv[1][j] != environ[i][j])
-					break;
-
-				j++;
-			}
-			if (arv[1][j] == '\0')
-			{
-				k = 0;
-				while (arv[2][k])
-				{
-					environ[i][j + 1 + k] = arv[2][k];
-					k++;
-				}
-				environ[i][j + 1 + k] = '\0';
-				return;
-			}
+			free(node->str);
+			node->str = buf;
+			info->env_changed = 1;
+			return (0);
 		}
+		node = node->next;
 	}
-	if (!environ[i])
-	{
-
-		environ[i] = concat_all(arv[1], "=", arv[2]);
-		environ[i + 1] = '\0';
-
-	}
+	add_node_end(&(info->env), buf, 0);
+	free(buf);
+	info->env_changed = 1;
+	return (0);
 }
 
 /**
- * _unsetenv - Remove an environment variable
- * @arv: array of entered words
+ * free_info - function that frees info_t struct fields
+ * @info: pointer to struct address
+ * @all: true if all fields are free
  */
-void _unsetenv(char **arv)
+void free_info(info_t *info, int all)
 {
-	int i, j;
-
-	if (!arv[1])
+	ffree(info->argv);
+	info->argv = NULL;
+	info->path = NULL;
+	if (all)
 	{
-		perror(_getenv("_"));
-		return;
-	}
-	for (i = 0; environ[i]; i++)
-	{
-		j = 0;
-		if (arv[1][j] == environ[i][j])
-		{
-			while (arv[1][j])
-			{
-				if (arv[1][j] != environ[i][j])
-					break;
-
-				j++;
-			}
-			if (arv[1][j] == '\0')
-			{
-				free(environ[i]);
-				environ[i] = environ[i + 1];
-				while (environ[i])
-				{
-					environ[i] = environ[i + 1];
-					i++;
-				}
-				return;
-			}
-		}
+		if (!info->cmd_buf)
+			free(info->arg);
+		if (info->env)
+			free_list(&(info->env));
+		if (info->history)
+			free_list(&(info->history));
+		if (info->alias)
+			free_list(&(info->alias));
+		ffree(info->environ);
+			info->environ = NULL;
+		bfree((void **)info->cmd_buf);
+		if (info->readfd > 2)
+			close(info->readfd);
+		_putchar(BUF_FLUSH);
 	}
 }
