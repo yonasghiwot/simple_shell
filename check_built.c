@@ -11,6 +11,8 @@ void(*checkbuiltin(char **arv))(char **arv)
 	builtin List[] = {
 		{"exit", exit_shell},
 		{"env", env},
+		{"setenv",_setenv},
+		{"unsetenv",_unsetenv},
 		{NULL, NULL}
 	};
 
