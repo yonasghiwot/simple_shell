@@ -1,91 +1,74 @@
 #include "main.h"
 
 /**
-* handle_EOF - handles the End of File
-* @len: return value of getline function
-* @input: input coming from user
+ * main - program entry point
+ * @ac: argument count
+ * @av: double pointer to argument vector
+ * Return: Returns condition , 0 on success, 1 on error
  */
-void handle_EOF(int len, char *input)
+int main(int ac, char **av)
 {
-	(void)input;
-	if (len == -1)
+	info_t info[] = { INFO_INIT };
+	int fd = 2;
+	int builtin_ret = 0;
+	ssize_t r = 0;
+
+	asm ("mov %1, %0\n\t"
+		"add $3, %0"
+		: "=r" (fd)
+		: "r" (fd));
+
+	if (ac == 2)
 	{
-		if (isatty(STDIN_FILENO))
+		fd = open(av[1], O_RDONLY);
+		if (fd == -1)
 		{
-			_puts("\n");
-			free(input);
+			if (errno == EACCES)
+				exit(126);
+			if (errno == ENOENT)
+			{
+				_eputs(av[0]);
+				_eputs(": 0: Can't open ");
+				_eputs(av[1]);
+				_eputchar('\n');
+				_eputchar(BUF_FLUSH);
+				exit(127);
+			}
+			return (EXIT_FAILURE);
 		}
-		exit(0);
+		info->readfd = fd;
 	}
-}
-/**
-  * _isatty - a function that checks keyboard input
-  * returns nothing
-  */
-
-void _isatty(void)
-{
-	if (isatty(STDIN_FILENO))
-		_puts("$ ");
-}
-/**
- * sig_handler - checks if Ctrl C is pressed
- * @sig_num: int
- */
-void sig_handler(int sig_num)
-{
-	if (sig_num == SIGINT)
-	{
-		_puts("\n$ ");
-	}
-}
-
-/**
- * main - entry point of main Shell
- * Return: 0 on success
- */
-
-int main(void)
-{
-	ssize_t len = 0;
-	char *input = NULL;
-	char *value, *pathname, **arv;
-	size_t size = 0;
-	list_path *head = '\0';
-	void (*f)(char **);
+	populate_env_list(info);
+	read_history(info);
 	
-	signal(SIGINT, sig_handler);
-	while (len != EOF)
+        while (r != -1 && builtin_ret != -2)
 	{
-		_isatty();
-		len = getline(&input, &size, stdin);
-		handle_EOF(len, input);
-		arv = word_list(input, " \n");
-		if (!arv || !arv[0])
-			execute(arv);
-		else
+		clear_info(info);
+		if (interactive(info))
+			_puts("$ ");/*prompt*/
+		_eputchar(BUF_FLUSH);
+		r = get_input(info);/*get input from line*/
+		if (r != -1)
 		{
-			value = _getenv("PATH");
-			head = linkpath(value);
-			pathname = _which(arv[0], head);
-			f = checkbuiltin(arv);
-			if (f)
-			{
-				free(input);
-				f(arv);
-			}
-			else if (!pathname)
-				execute(arv);
-			else if (pathname)
-			{
-				free(arv[0]);
-				arv[0] = pathname;
-				execute(arv);
-			}
+			set_info(info, av);
+			builtin_ret = find_builtin(info);
+			if (builtin_ret == -1)
+				find_cmd(info);
 		}
+		else if (interactive(info))
+			_putchar('\n');
+		free_info(info, 0);
 	}
-	free_list(head);
-	freearv(arv);
-	free(input);
-	return (0);
+	write_history(info);
+	free_info(info, 1);
+	if (!interactive(info) && info->status)
+		exit(info->status);
+	if (builtin_ret == -2)
+	{
+		if (info->err_num == -1)
+			exit(info->status);
+		exit(info->err_num);
+	}
+	return (builtin_ret);
+	return (EXIT_SUCCESS);
 }
