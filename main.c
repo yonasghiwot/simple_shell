@@ -29,6 +29,18 @@ void _isatty(void)
 		_puts("$ ");
 }
 /**
+ * sig_handler - checks if Ctrl C is pressed
+ * @sig_num: int
+ */
+void sig_handler(int sig_num)
+{
+	if (sig_num == SIGINT)
+	{
+		_puts("\n$ ");
+	}
+}
+
+/**
  * main - entry point of main Shell
  * Return: 0 on success
  */
@@ -41,7 +53,8 @@ int main(void)
 	size_t size = 0;
 	list_path *head = '\0';
 	void (*f)(char **);
-
+	
+	signal(SIGINT, sig_handler);
 	while (len != EOF)
 	{
 		_isatty();
