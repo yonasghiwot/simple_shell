@@ -58,14 +58,14 @@ int main(void)
 			f = checkbuiltin(arv);
 			if (f)
 			{
-				/*free(input);*/
+				free(input);
 				f(arv);
 			}
 			else if (!pathname)
 				execute(arv);
 			else if (pathname)
 			{
-				/*free(arv[0]);*/
+				free(arv[0]);
 				arv[0] = pathname;
 				execute(arv);
 			}
