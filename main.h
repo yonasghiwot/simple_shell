@@ -17,7 +17,6 @@ void _puts(char *str);
 int _strlen(char *s);
 char *_strdup(char *str);
 char *concat_all(char *name, char *sep, char *value);
-
 char **word_list(char *str, const char *delim);
 size_t tokenize(char *str,char *delim);
 void execute(char **argv);
@@ -42,7 +41,7 @@ list_path *linkpath(char *path);
 char *_which(char *filename, list_path *head);
 
 /**
- * struct mybuild - pointer to function with corresponding builtin command
+ * struct builtin - pointer to function with corresponding builtin command
  * @name: buildin command
  * @func: execute the buildin command
  */
@@ -56,7 +55,6 @@ void(*checkbuiltin(char **arv))(char **arv);
 int _atoi(char *s);
 void exit_shell(char **arv);
 void env(char **arv);
-
 void freearv(char **arv);
 void free_list(list_path *head);
 
