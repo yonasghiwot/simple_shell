@@ -69,5 +69,5 @@ int main(int ac, char **av)
 		exit(info->err_num);
 	}
 	return (builtin_ret);
-	return (EXIT_SUCCESS);
+	/*return (EXIT_SUCCESS);*/
 }
