@@ -155,7 +155,7 @@ int _ouralias(info_t *info);
 void clear_info(info_t *info);
 void set_info(info_t *info, char **av);
 
-/*ourgetLine_sighandler*/
+/*ourgetline_sighandler.c*/
 ssize_t input_buf(info_t *info, char **buf, size_t *len);
 ssize_t get_input(info_t *);
 int _getline(info_t *, char **, size_t *);
