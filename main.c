@@ -40,8 +40,7 @@ int main(int ac, char **av)
 	}
 	populate_env_list(info);
 	read_history(info);
-	
-        while (r != -1 && builtin_ret != -2)
+	while (r != -1 && builtin_ret != -2)
 	{
 		clear_info(info);
 		if (interactive(info))

@@ -2,7 +2,7 @@
 
 /**
  * get_environ - function that returns the string array copy of our environ
- * @info: Structure containing possibel argument which is 
+ * @info: Structure containing possibel argument which is
  *      : Used to maintain constant function prototype.
  * Return: Always 0
  */
@@ -52,7 +52,7 @@ int _unsetenv(info_t *info, char *var)
 /**
  * _setenv - function that Initialize a new environment variable
  *         - or modify an existing one
- * @info: Structure containing possibel arguments which is 
+ * @info: Structure containing possibel arguments which is
  *      : Used to maintain constant function prototype.
  * @var: string env var property
  * @value: string env var value

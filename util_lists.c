@@ -18,7 +18,7 @@ size_t list_len(const list_t *h)
 }
 
 /**
- * list_to_strings - function that returns an array 
+ * list_to_strings - function that returns an array
  *                 -of strings of the list->str
  * @head: a pointer to first node
  * Return: the array of strings
@@ -77,7 +77,7 @@ size_t print_list(const list_t *h)
 }
 
 /**
- * node_starts_with - function that returns node 
+ * node_starts_with - function that returns node
  *                  - whose string starts with prefix
  * @node: a pointer to list head
  * @prefix: a string to match

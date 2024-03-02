@@ -3,9 +3,8 @@
 /**
  * _ourexit - function that exits the shell
  * @info: Structure containing possible arguments which is
- *      : Used to maintain constant function prototype.
- * Return: exit with a given exit status
- *        : 0 if info.argv[0] != "exit"
+ * : Used to maintain constant function prototype.
+ * Return: exit with a given exit status : 0 if info.argv[0] != "exit"
  */
 int _ourexit(info_t *info)
 {
@@ -79,7 +78,7 @@ int _ourcd(info_t *info)
 
 /**
  * _ourhelp - function that displays help of the shell
- * @info: Structure containing possibel argument which is 
+ * @info: Structure containing possibel argument which is
  *      : Used to maintain constant function prototype.
  *  Return: Always 0
  */
@@ -142,3 +141,4 @@ void set_info(info_t *info, char **av)
 		replace_vars(info);
 	}
 }
+

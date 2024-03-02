@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * is_chain - function that test if current char in 
+ * is_chain - function that test if current char in
  *          - buffer is a chain delimeter
  * @info: the parameter struct
  * @buf: the char buffer
@@ -36,14 +36,14 @@ int is_chain(info_t *info, char *buf, size_t *p)
 }
 
 /**
- * check_chain - function that checks we should continue 
+ * check_chain - function that checks we should continue
  *             - chaining based on last status
  * @info: the parameter struct
  * @buf: the char buffer
  * @p: address of current position in buf
  * @i: starting position in buf
  * @len: length of buf
- * Return: nothing it is void 
+ * Return: nothing it is void
  */
 void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 {

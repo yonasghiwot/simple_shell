@@ -73,7 +73,7 @@ list_t *add_node_end(list_t **head, const char *str, int num)
 }
 
 /**
- * print_list_str - function that prints only the str memeber 
+ * print_list_str - function that prints only the str memeber
  *                - of a list_t linked list
  * @h: pointer to first node
  * Return: number of list
@@ -134,7 +134,7 @@ int delete_node_at_index(list_t **head, unsigned int index)
 /**
  * free_list - function that frees all nodes of a list
  * @head_ptr: double pointer to address of pointer to head node
- * Return: nothing it is void 
+ * Return: nothing it is void
  */
 void free_list(list_t **head_ptr)
 {
