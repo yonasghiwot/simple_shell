@@ -168,7 +168,7 @@ int _mysetenv(info_t *);
 int _myunsetenv(info_t *);
 int populate_env_list(info_t *);
 
-/*util_enviromrnt_var.c*/
+/* builtin.c*/
 char **get_environ(info_t *);
 int _unsetenv(info_t *, char *);
 int _setenv(info_t *, char *, char *);
@@ -181,7 +181,7 @@ int read_history(info_t *info);
 int build_history_list(info_t *info, char *buf, int linecount);
 int renumber_history(info_t *info);
 
-/*util_linkpath.c*/
+/* handle_path.c*/
 list_t *add_node(list_t **, const char *, int);
 list_t *add_node_end(list_t **, const char *, int);
 size_t print_list_str(const list_t *);
@@ -202,7 +202,7 @@ char *starts_with(const char *, const char *);
 char *_strcat(char *, char *);
 char *_strcpy(char *, char *);
 
-/* util2_string.c */
+/* string_handler.c */
 char *_strdup(const char *);
 void _puts(char *);
 int _putchar(char);
@@ -210,7 +210,7 @@ char *_strncpy(char *dest, char *src, int n);
 char *_strncat(char *dest, char *src, int n);
 
 
-/* utile_tokenizer_parser.c */
+/* line_for_execute.c */
 char **strtow(char *, char *);
 char **strtow2(char *, char);
 int is_cmd(info_t *, char *);
@@ -223,7 +223,7 @@ void ffree(char **);
 void *_realloc(void *, unsigned int, unsigned int);
 int bfree(void **);
 
-/* utile_vars.c */
+/* check_builtin.c */
 int is_chain(info_t *, char *, size_t *);
 void check_chain(info_t *, char *, size_t *, size_t, size_t);
 int replace_alias(info_t *);

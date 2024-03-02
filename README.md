@@ -14,15 +14,31 @@ Our shell was built and tested on Ubuntu 14.04 LTS.
 
 Features
 
-***It displays the prompt ($ ) and waits for the user to type a command.
-***The command is read from the user.
-***If the user presses Ctrl+D (end of file), the shell exits.
-***Otherwise, it tokenizes the input to separate the command.
-***It forks a child process to execute the command.
-***If the executable is not found, it prints an error message.
-***The parent process waits for the child process to complete.
-***Handle the PATH
-***Support the exit features and the exit status
+***Ask the user to enter a command and wait for their response, making sure that every command ends in a newline.
+
+***display an error message and prompt the user once more if it is unable to locate an executable.
+
+***Put error-handling procedures in place to handle unforeseen circumstances with compassion.
+
+***Use the Ctrl+D keyboard shortcut to handle the termination condition (end of file).
+
+***Allow argument-containing command lines.
+
+***Executables can be found by using the PATH environment variable.
+Maintain exit statuses and provide support for the exit command feature.
+
+***Stop the shell from ending when the user hits the Ctrl-C key.
+
+***Control the command separators (;) to make different commands stand out.
+
+***Take care of logical operators for conditional execution, like && and ||.
+
+***Replace special variables like $? and $$ with variable replacements.
+Process the comments that the # symbol indicates.
+
+***Support a historical characteristic to recall previous commands.
+
+***Enable file input to execute commands from a file.
 
 
                How to use the simple shell
