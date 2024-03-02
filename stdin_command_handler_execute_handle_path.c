@@ -96,6 +96,7 @@ void fork_cmd(info_t *info)
 		if (execve(info->path, info->argv, get_environ(info)) == -1)
 		{
 			free_info(info, 1);
+			/*printf("ON Child process EXECVE == -1\n");*/
 			if (errno == EACCES)
 				exit(126);
 			exit(1);
@@ -108,8 +109,11 @@ void fork_cmd(info_t *info)
 		if (WIFEXITED(info->status))
 		{
 			info->status = WEXITSTATUS(info->status);
+			/*printf("exited, status=%d\n", WEXITSTATUS(info->status));*/
+			/*printf("info->status=%d\n",(info->status));*/
 			if (info->status == 126)
 				print_error(info, "Permission denied\n");
 		}
+		exit(EXIT_SUCCESS);
 	}
 }
