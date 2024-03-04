@@ -109,11 +109,9 @@ void fork_cmd(info_t *info)
 		if (WIFEXITED(info->status))
 		{
 			info->status = WEXITSTATUS(info->status);
-			/*printf("exited, status=%d\n", WEXITSTATUS(info->status));*/
-			/*printf("info->status=%d\n",(info->status));*/
 			if (info->status == 126)
 				print_error(info, "Permission denied\n");
 		}
-		exit(EXIT_SUCCESS);
+		
 	}
 }

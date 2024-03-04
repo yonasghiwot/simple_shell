@@ -68,10 +68,5 @@ int main(int ac, char **av)
 			exit(info->status);
 		exit(info->err_num);
 	}
-	
-	/*printf("%d\n",builtin_ret);*/
-	/*printf("%d\n",EXIT_SUCCESS);*/
-	return (builtin_ret);
-	/*return (EXIT_SUCCESS);*/
-	
+	return (EXIT_SUCCESS);
 }
