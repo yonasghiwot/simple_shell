@@ -65,7 +65,7 @@ int _ourcd(info_t *info)
 		chdir_ret = chdir(info->argv[1]);
 	if (chdir_ret == -1)
 	{
-		print_error(info, "can't cd to /");
+		print_error(info, "can't cd to/");
 		_eputs(info->argv[1]), _eputchar('\n');
 	}
 	else
